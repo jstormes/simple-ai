@@ -1,0 +1,37 @@
+{
+  "name": "@project/ai-chat",
+  "version": "1.0.0",
+  "description": "Embeddable AI chat widget with SSE streaming and markdown support",
+  "type": "module",
+  "main": "dist/chat-widget.js",
+  "types": "dist/types.d.ts",
+  "scripts": {
+    "dev": "esbuild src/index.ts --bundle --outfile=dist/chat-widget.js --format=iife --global-name=ChatWidget --watch --sourcemap",
+    "build": "npm run build:js && npm run build:min",
+    "build:js": "esbuild src/index.ts --bundle --outfile=dist/chat-widget.js --format=iife --global-name=ChatWidget --sourcemap",
+    "build:min": "esbuild src/index.ts --bundle --outfile=dist/chat-widget.min.js --format=iife --global-name=ChatWidget --minify",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "marked": "^15.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "esbuild": "^0.24.0",
+    "typescript": "^5.7.0",
+    "vitest": "^2.1.0",
+    "jsdom": "^25.0.0",
+    "@vitest/coverage-v8": "^2.1.0"
+  },
+  "keywords": [
+    "chat",
+    "widget",
+    "ai",
+    "embeddable",
+    "streaming",
+    "sse"
+  ],
+  "license": "MIT"
+}

@@ -1,0 +1,31 @@
+{
+  "id": "support-agent",
+  "path": "support",
+  "name": "Customer Support",
+  "description": "AI agent for customer support, troubleshooting, and issue resolution",
+  "model": "gemini-2.0-flash",
+  "temperature": 0.5,
+  "maxTokens": 4096,
+  "systemPrompt": "You are a helpful customer support agent. Assist customers with technical issues, answer questions about products and services, and help resolve problems. Be patient, empathetic, and thorough in your responses. If you cannot resolve an issue, explain the escalation process clearly.",
+  "enableTools": true,
+  "mcp": {
+    "servers": []
+  },
+  "a2a": {
+    "discoverable": true,
+    "capabilities": [
+      {
+        "id": "ticket-creation",
+        "name": "Support Ticket Creation",
+        "description": "Create and manage support tickets",
+        "tags": ["support", "tickets", "issues"]
+      },
+      {
+        "id": "troubleshooting",
+        "name": "Troubleshooting Guide",
+        "description": "Provide step-by-step troubleshooting assistance",
+        "tags": ["support", "troubleshooting", "help"]
+      }
+    ]
+  }
+}

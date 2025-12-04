@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Chat Widget Demo</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.6;
+      color: #1a1a1a;
+      background: #f5f5f5;
+      min-height: 100vh;
+      /* Transition for push content effect */
+      transition: margin 0.3s ease-in-out;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      color: #0066cc;
+    }
+
+    .subtitle {
+      font-size: 1.2rem;
+      color: #666;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+      padding: 30px;
+      margin-bottom: 30px;
+    }
+
+    .card h2 {
+      font-size: 1.4rem;
+      margin-bottom: 15px;
+      color: #333;
+    }
+
+    .card p {
+      color: #666;
+      margin-bottom: 15px;
+    }
+
+    .card ul {
+      margin-left: 20px;
+      color: #666;
+    }
+
+    .card li {
+      margin-bottom: 8px;
+    }
+
+    .demo-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-primary {
+      background: #0066cc;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #0052a3;
+    }
+
+    .btn-secondary {
+      background: #e5e7eb;
+      color: #374151;
+    }
+
+    .btn-secondary:hover {
+      background: #d1d5db;
+    }
+
+    .code-block {
+      background: #1e293b;
+      border-radius: 8px;
+      padding: 20px;
+      overflow-x: auto;
+      margin: 15px 0;
+    }
+
+    .code-block code {
+      font-family: 'SF Mono', Monaco, monospace;
+      font-size: 14px;
+      color: #e2e8f0;
+      white-space: pre;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .feature {
+      background: #f8fafc;
+      border-radius: 8px;
+      padding: 20px;
+    }
+
+    .feature h3 {
+      font-size: 1.1rem;
+      margin-bottom: 8px;
+      color: #0066cc;
+    }
+
+    .feature p {
+      font-size: 14px;
+      color: #64748b;
+      margin: 0;
+    }
+
+    .config-section {
+      background: #f8fafc;
+      border-radius: 8px;
+      padding: 20px;
+      margin-top: 20px;
+    }
+
+    .config-section h3 {
+      font-size: 1rem;
+      margin-bottom: 15px;
+      color: #374151;
+    }
+
+    .config-option {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .config-option label {
+      font-size: 14px;
+      color: #4b5563;
+      min-width: 120px;
+    }
+
+    .config-option input[type="text"],
+    .config-option input[type="color"],
+    .config-option select {
+      padding: 8px 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    .config-option input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: #9ca3af;
+      font-size: 14px;
+    }
+
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2rem;
+      }
+
+      .container {
+        padding: 20px;
+      }
+
+      .card {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>AI Chat Widget</h1>
+      <p class="subtitle">A lightweight, embeddable chat widget with SSE streaming</p>
+    </header>
+
+    <div class="card">
+      <h2>Demo</h2>
+      <p>Click the chat button in the bottom-right corner to open the chat panel. The panel will slide in and push this page content to the left.</p>
+
+      <div class="demo-actions">
+        <button class="btn btn-primary" onclick="window.ChatWidget.open()">
+          Open Chat
+        </button>
+        <button class="btn btn-secondary" onclick="window.ChatWidget.toggle()">
+          Toggle Chat
+        </button>
+        <button class="btn btn-secondary" onclick="window.ChatWidget.clearHistory()">
+          Clear History
+        </button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Features</h2>
+      <div class="feature-grid">
+        <div class="feature">
+          <h3>SSE Streaming</h3>
+          <p>Real-time streaming responses with progressive markdown rendering.</p>
+        </div>
+        <div class="feature">
+          <h3>Push Content Layout</h3>
+          <p>Panel pushes page content aside instead of overlaying it.</p>
+        </div>
+        <div class="feature">
+          <h3>Markdown Support</h3>
+          <p>Full markdown rendering with syntax highlighting for code blocks.</p>
+        </div>
+        <div class="feature">
+          <h3>Session Persistence</h3>
+          <p>Conversations persist across page reloads using localStorage.</p>
+        </div>
+        <div class="feature">
+          <h3>Accessibility</h3>
+          <p>Full keyboard navigation, ARIA labels, and screen reader support.</p>
+        </div>
+        <div class="feature">
+          <h3>Multi-Language</h3>
+          <p>Full Unicode support including RTL languages like Arabic and Hebrew.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Integration</h2>
+      <p>Add the chat widget to your site with just a few lines of code:</p>
+
+      <div class="code-block">
+        <code>&lt;!-- Configuration --&gt;
+&lt;script&gt;
+window.ChatWidgetConfig = {
+  agentEndpoint: 'https://api.example.com/agents/support',
+  position: 'bottom-right',
+  primaryColor: '#0066cc',
+  headerTitle: 'Chat with Us',
+  welcomeMessage: 'Hello! How can I help you today?'
+};
+&lt;/script&gt;
+
+&lt;!-- Widget Script --&gt;
+&lt;script src="chat-widget.js"&gt;&lt;/script&gt;</code>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Try These Prompts</h2>
+      <p>Test the markdown rendering with these example prompts:</p>
+      <ul>
+        <li>"Write a Python function to calculate fibonacci numbers"</li>
+        <li>"Explain the difference between let and const in JavaScript"</li>
+        <li>"Create a markdown table comparing React, Vue, and Angular"</li>
+        <li>"Write a bash script to backup files"</li>
+        <li>"What are the SOLID principles? Use bullet points."</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>Configuration Options</h2>
+
+      <div class="config-section">
+        <h3>Available Options</h3>
+        <div class="code-block">
+          <code>{
+  // Required
+  agentEndpoint: string,      // Full URL to your agent endpoint
+
+  // Appearance
+  position: 'bottom-right' | 'bottom-left',
+  avatarImage: string,        // URL to avatar image
+  avatarSize: number,         // Avatar diameter (30-120px)
+  primaryColor: string,       // Theme color (hex)
+  chatWidth: number,          // Panel width (280-800px)
+  chatHeight: number | 'full',
+
+  // Branding
+  headerTitle: string,
+  welcomeMessage: string,
+  placeholder: string,
+
+  // Behavior
+  openOnLoad: boolean,        // Auto-open on page load
+  persistSession: boolean,    // Save to localStorage
+  pushContent: boolean,       // Push page content vs overlay
+
+  // Markdown
+  enableMarkdown: boolean,
+  syntaxHighlighting: boolean,
+  syntaxTheme: 'github-dark' | 'github-light' | 'monokai',
+
+  // Authentication
+  authToken: string,
+  authHeader: string,         // Default: 'Authorization'
+
+  // Callbacks
+  onOpen: () => void,
+  onClose: () => void,
+  onMessageSent: (message) => void,
+  onMessageReceived: (message) => void,
+  onError: (error) => void
+}</code>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Public API</h2>
+      <p>Control the widget programmatically:</p>
+
+      <div class="code-block">
+        <code>// Open the chat panel
+window.ChatWidget.open();
+
+// Close the chat panel
+window.ChatWidget.close();
+
+// Toggle open/closed
+window.ChatWidget.toggle();
+
+// Send a message programmatically
+window.ChatWidget.sendMessage('Hello!');
+
+// Clear chat history
+window.ChatWidget.clearHistory();
+
+// Destroy the widget
+window.ChatWidget.destroy();</code>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>AI Chat Widget &bull; Built with TypeScript</p>
+  </footer>
+
+  <!-- Widget Configuration -->
+  <script>
+    window.ChatWidgetConfig = {
+      agentEndpoint: 'http://localhost:8001/agents/support',
+      position: 'bottom-right',
+      primaryColor: '#0066cc',
+      chatWidth: 400,
+      chatHeight: 'full',
+      headerTitle: 'AI Support',
+      welcomeMessage: 'Hello! I\'m your AI assistant. How can I help you today?',
+      placeholder: 'Type your message...',
+      openOnLoad: false,
+      persistSession: true,
+      pushContent: true,
+      enableMarkdown: true,
+      syntaxHighlighting: true,
+      syntaxTheme: 'github-dark',
+      onOpen: () => console.log('[Demo] Chat opened'),
+      onClose: () => console.log('[Demo] Chat closed'),
+      onMessageSent: (msg) => console.log('[Demo] Message sent:', msg),
+      onMessageReceived: (msg) => console.log('[Demo] Message received:', msg),
+      onError: (err) => console.error('[Demo] Error:', err)
+    };
+  </script>
+
+  <!-- Load the widget -->
+  <script src="../dist/chat-widget.js"></script>
+</body>
+</html>

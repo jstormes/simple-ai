@@ -1,0 +1,31 @@
+{
+  "id": "sales-agent",
+  "path": "sales",
+  "name": "Sales Assistant",
+  "description": "AI agent for sales inquiries, quotes, and product information",
+  "model": "gemini-2.0-flash",
+  "temperature": 0.7,
+  "maxTokens": 4096,
+  "systemPrompt": "You are a helpful sales assistant. Help customers with product inquiries, generate quotes, and provide information about our services. Be professional, friendly, and solution-oriented. When you don't have specific product information, ask clarifying questions to better understand the customer's needs.",
+  "enableTools": true,
+  "mcp": {
+    "servers": []
+  },
+  "a2a": {
+    "discoverable": true,
+    "capabilities": [
+      {
+        "id": "quote-generation",
+        "name": "Quote Generation",
+        "description": "Generate sales quotes for products and services",
+        "tags": ["sales", "quotes", "pricing"]
+      },
+      {
+        "id": "product-lookup",
+        "name": "Product Lookup",
+        "description": "Search and retrieve product information",
+        "tags": ["products", "catalog", "search"]
+      }
+    ]
+  }
+}

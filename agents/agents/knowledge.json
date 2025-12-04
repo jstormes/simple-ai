@@ -1,0 +1,30 @@
+{
+  "id": "knowledge-agent",
+  "path": "knowledge",
+  "name": "Knowledge Base",
+  "description": "Answers questions using company documentation via RAG",
+  "model": "gemini-2.0-flash",
+  "temperature": 0.3,
+  "maxTokens": 4096,
+  "systemPrompt": "You are a knowledge base assistant. Answer questions based on the provided context from company documentation. Be accurate and helpful. If the context doesn't contain relevant information to answer the question, say so clearly rather than making up an answer. When possible, cite which document or section your answer comes from.",
+  "enableTools": false,
+  "rag": {
+    "enabled": true,
+    "provider": "pinecone",
+    "index": "company-docs",
+    "namespace": "production",
+    "topK": 5,
+    "minScore": 0.7
+  },
+  "a2a": {
+    "discoverable": true,
+    "capabilities": [
+      {
+        "id": "documentation-search",
+        "name": "Documentation Search",
+        "description": "Search and answer questions from company documentation, policies, and FAQs",
+        "tags": ["docs", "knowledge", "faq", "policy", "documentation"]
+      }
+    ]
+  }
+}

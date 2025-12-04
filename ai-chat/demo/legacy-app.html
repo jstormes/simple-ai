@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Acme Corp - Customer Portal</title>
+  <style>
+    /* Legacy app styles - completely unaware of chat widget */
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Georgia, 'Times New Roman', serif;
+      line-height: 1.5;
+      color: #333;
+      background: #f9f9f9;
+      margin: 0;
+      padding: 0;
+    }
+
+    .navbar {
+      background: #2c3e50;
+      color: white;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .navbar h1 {
+      margin: 0;
+      font-size: 1.5rem;
+      font-weight: normal;
+    }
+
+    .navbar nav a {
+      color: #ecf0f1;
+      text-decoration: none;
+      margin-left: 20px;
+      font-size: 14px;
+    }
+
+    .navbar nav a:hover {
+      text-decoration: underline;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    .hero h2 {
+      font-size: 2.5rem;
+      margin: 0 0 15px 0;
+      font-weight: normal;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+      margin-top: 30px;
+    }
+
+    .card {
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 25px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .card h3 {
+      margin: 0 0 15px 0;
+      color: #2c3e50;
+      font-size: 1.3rem;
+    }
+
+    .card p {
+      color: #666;
+      margin: 0 0 15px 0;
+    }
+
+    .card a {
+      color: #667eea;
+      text-decoration: none;
+    }
+
+    .card a:hover {
+      text-decoration: underline;
+    }
+
+    .form-section {
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 30px;
+      margin-top: 30px;
+    }
+
+    .form-section h3 {
+      margin: 0 0 20px 0;
+      color: #2c3e50;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+      color: #555;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+      font-family: inherit;
+    }
+
+    .form-group textarea {
+      height: 100px;
+      resize: vertical;
+    }
+
+    .btn {
+      background: #2c3e50;
+      color: white;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .btn:hover {
+      background: #34495e;
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      background: white;
+    }
+
+    .data-table th,
+    .data-table td {
+      border: 1px solid #ddd;
+      padding: 12px;
+      text-align: left;
+    }
+
+    .data-table th {
+      background: #f5f5f5;
+      font-weight: bold;
+    }
+
+    .data-table tr:nth-child(even) {
+      background: #fafafa;
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+    }
+
+    .status-active {
+      background: #d4edda;
+      color: #155724;
+    }
+
+    .status-pending {
+      background: #fff3cd;
+      color: #856404;
+    }
+
+    footer {
+      background: #2c3e50;
+      color: #bdc3c7;
+      text-align: center;
+      padding: 20px;
+      margin-top: 50px;
+      font-size: 14px;
+    }
+
+    /* Simulating some legacy conflicting styles */
+    * {
+      outline: none;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-color: #667eea;
+      box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2);
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar">
+    <h1>Acme Corp Portal</h1>
+    <nav>
+      <a href="#">Dashboard</a>
+      <a href="#">Orders</a>
+      <a href="#">Invoices</a>
+      <a href="#">Support</a>
+      <a href="#">Account</a>
+    </nav>
+  </div>
+
+  <div class="hero">
+    <h2>Welcome Back, John</h2>
+    <p>Manage your orders, view invoices, and get support all in one place.</p>
+  </div>
+
+  <div class="container">
+    <h2>Quick Actions</h2>
+    <div class="card-grid">
+      <div class="card">
+        <h3>Recent Orders</h3>
+        <p>View and track your recent orders. Check shipping status and delivery estimates.</p>
+        <a href="#">View All Orders &rarr;</a>
+      </div>
+      <div class="card">
+        <h3>Invoices & Billing</h3>
+        <p>Access your invoices, payment history, and manage your billing preferences.</p>
+        <a href="#">Manage Billing &rarr;</a>
+      </div>
+      <div class="card">
+        <h3>Product Catalog</h3>
+        <p>Browse our latest products and place new orders for your business.</p>
+        <a href="#">Browse Products &rarr;</a>
+      </div>
+    </div>
+
+    <h2 style="margin-top: 40px;">Recent Activity</h2>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Order #</th>
+          <th>Date</th>
+          <th>Items</th>
+          <th>Total</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>ORD-2024-1847</td>
+          <td>Dec 2, 2024</td>
+          <td>Office Supplies Bundle</td>
+          <td>$284.50</td>
+          <td><span class="status-badge status-active">Shipped</span></td>
+        </tr>
+        <tr>
+          <td>ORD-2024-1832</td>
+          <td>Nov 28, 2024</td>
+          <td>Computer Equipment</td>
+          <td>$1,249.00</td>
+          <td><span class="status-badge status-pending">Processing</span></td>
+        </tr>
+        <tr>
+          <td>ORD-2024-1815</td>
+          <td>Nov 22, 2024</td>
+          <td>Printer Cartridges (x12)</td>
+          <td>$456.00</td>
+          <td><span class="status-badge status-active">Delivered</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="form-section">
+      <h3>Contact Support</h3>
+      <p style="color: #666; margin-bottom: 20px;">Fill out the form below or use the chat assistant for immediate help.</p>
+
+      <form onsubmit="event.preventDefault(); alert('Form submitted!');">
+        <div class="form-group">
+          <label for="subject">Subject</label>
+          <select id="subject">
+            <option>Order Inquiry</option>
+            <option>Billing Question</option>
+            <option>Technical Support</option>
+            <option>Returns & Refunds</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea id="message" placeholder="Describe your issue..."></textarea>
+        </div>
+        <button type="submit" class="btn">Submit Request</button>
+      </form>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2024 Acme Corporation. All rights reserved.</p>
+  </footer>
+
+  <!--
+    ============================================================
+    CHAT WIDGET INTEGRATION
+    ============================================================
+    This is the only code added to retrofit AI chat onto this
+    legacy application. The rest of the page has no knowledge
+    of the chat widget.
+    ============================================================
+  -->
+  <script>
+    window.ChatWidgetConfig = {
+      agentEndpoint: 'http://localhost:8001/agents/support',
+      position: 'bottom-right',
+      primaryColor: '#667eea',
+      chatWidth: 380,
+      chatHeight: 500,
+      headerTitle: 'Acme Support',
+      welcomeMessage: 'Hi! I\'m the Acme support assistant. I can see what\'s on your screen and help you with orders, billing, returns, and more. How can I assist you today?',
+      placeholder: 'Ask about what you see...',
+      openOnLoad: false,
+      persistSession: true,
+      pushContent: false,
+      enableMarkdown: true,
+      syntaxHighlighting: true,
+      syntaxTheme: 'github-dark',
+      includePageContext: true,
+      pageContextSelector: null  // null = entire page, or use '.container' to limit scope
+    };
+  </script>
+  <script src="../dist/chat-widget.js"></script>
+</body>
+</html>

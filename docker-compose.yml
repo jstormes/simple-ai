@@ -1,0 +1,74 @@
+############################################################################
+# This section `services` is where the "servers" are.  Each service provides
+# a "server".  Common development use cases are web servers, database
+# servers and testing servers.
+#
+# The purpose of each service is to define how the service (aka server)
+# interacts with the host.
+############################################################################
+services:
+
+  ai-chat:
+    build:
+      context: .
+      dockerfile: .docker/TypeScript.Dockerfile
+      target: ai-dev
+
+    # This section sets the environment variables inside the Docker container.
+    environment:
+      - TZ=America/Chicago # see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+
+      # Application environment
+      - APP_ENV=development
+
+    ports:
+      - "8080:8080"
+
+    volumes:
+      - ./:/project
+
+    working_dir: /project/ai-chat
+
+    # Sleep infinity allows agent to work interactively inside container
+    command: bash -c 'sleep infinity'
+
+    # Allow access to agent service and other services
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  agents:
+    build:
+      context: .
+      dockerfile: .docker/TypeScript.Dockerfile
+      target: ai-dev
+
+    # This section sets the environment variables inside the Docker container.
+    environment:
+      - TZ=America/Chicago # see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+
+      # Application environment
+      - APP_ENV=development
+      - NODE_ENV=development
+
+      # Server configuration
+      - PORT=8001
+      - BASE_URL=http://localhost:8001
+      - AGENT_CONFIG_PATH=./agents
+
+      # Google AI API Key - passed from host environment or .env file
+      - GOOGLE_GENERATIVE_AI_API_KEY=${GOOGLE_GENERATIVE_AI_API_KEY}
+
+    ports:
+      - "8001:8001"
+
+    volumes:
+      - ./:/project
+
+    working_dir: /project/agents
+
+    # Start the agents framework with hot-reload
+    command: bash -c 'npm install && npm run dev'
+
+    # Allow access to agent service and other services
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
