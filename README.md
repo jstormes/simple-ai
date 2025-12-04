@@ -83,7 +83,7 @@ docker compose up agents
 ### Prerequisites
 
 - Docker and Docker Compose
-- Google AI API key (for Gemini models)
+- [Google AI API key](https://aistudio.google.com/app/api-keys) (for Gemini models)
 
 ### 1. Clone and configure
 
